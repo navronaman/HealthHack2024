@@ -37,7 +37,8 @@ S3_BUCKET = os.getenv("S3_BUCKET")
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Prompt file path
-PROMPT_FILE_PATH = r"data\templates\blood_test\blood_test_prompt.txt" # Fill this out
+BR_PROMPT_FILE_PATH = r"data\templates\blood_test\blood_test_prompt.txt" # Fill this out
+UR_PROMPT_FILE_PATH = r"data\templates\urine_test\urine_test_prompt.txt" # Fill this out
 
 # Let's start with the PDF processing service
 
@@ -46,6 +47,8 @@ def extract_text_from_pdf(pdf_path):
     What does this function do?
     - Extracts text from a PDF file
     - Returns the extracted text as a string
+    - Usecases: All possible PDF files
+    
     Parameters:
     - pdf_path: The path to the PDF file
     Returns:
@@ -74,6 +77,7 @@ def upload_to_s3(file_path, s3_filename):
     Parameters:
     - file_path (str): Local path to the file to be uploaded.
     - s3_filename (str): Destination path in the S3 bucket.
+    - Depending on the test type, the destination path might be changed to blood_report, urine_report, MRI_report, etc.
     
     Returns:
     - str: S3 URL of the uploaded file if successful.
@@ -98,15 +102,23 @@ def upload_to_s3(file_path, s3_filename):
         return None
 
 # Third, let's implement the OpenAI service
-def analyze_text_with_openai(input_text, prompt_file_path=PROMPT_FILE_PATH):
+def analyze_text_with_openai(input_text, test_type='Blood Type', prompt_file_path=BR_PROMPT_FILE_PATH):
     """
     Takes in the text from the blood test and uses OpenAI to analyze it, adds a prompt to give context.
+    
+    Parameters:
+    - input_text (str): The text to be analyzed.
+    - test_type (str): The type of test being analyzed. [Blood Test, Urine Test, MRI Scan, etc.]
+    - prompt_file_path (str): The path to the prompt file. [Blood Test Prompt, Urine Test Prompt, MRI Scan Prompt, etc.]
+    
+    Returns:
+    - result (str): The analyzed text from OpenAI.
     
     """
     with open(prompt_file_path, "r") as prompt_file:
         prompt_template = prompt_file.read()
     
-    full_prompt = f"{prompt_template}\n\nBlood Test Findings:\n{input_text}"
+    full_prompt = f"{prompt_template}\n\n{test_type} Findings:\n{input_text}"
     
     try:
         response = openai.ChatCompletion.create(
@@ -130,7 +142,7 @@ def analyze_text_with_openai(input_text, prompt_file_path=PROMPT_FILE_PATH):
         return None
 
 # Lastly, let's implement the PDF generation service
-def create_pdf(output_text, pdf_filename="blood_test_report_output.pdf"):
+def create_pdf(output_text, pdf_filename=r"data\templates\report_output0.pdf"):
     pdf = FPDF()
     pdf.add_page()
     

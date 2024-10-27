@@ -8,7 +8,7 @@ Patient Name: [Patient’s Name]
 Date of Testing: [Date of Entry]  
 Type of Test: [Type of Test]  
 
-Findings: {text}
+Findings: [Write a structured, formal analysis in paragraphs with all important values in bold. Do not use bullet points. For example, write findings as you would in a detailed doctor's report, such as "The patient's hemoglobin level of *12.0 g/dL* is within the normal range, whereas the *WBC count* of *15,000/uL* is elevated, indicating..."]
 
 At the end, please include:  
 Sign of Doctor: Dr. [Doctor’s Name]

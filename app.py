@@ -10,10 +10,10 @@ import os
 from dotenv import load_dotenv
 
 # Import from Backend
-from backend.blood_service import pdf_processing, s3_service, openai_service, pdf_generator
+from backend.blood_service import extract_text_from_pdf, upload_to_s3, analyze_text_with_openai, create_pdf
 
 # For session ID
-import datetime
+from datetime import datetime
 import uuid
 
 app = Flask(__name__)
@@ -46,6 +46,15 @@ def blood_test_analysis_pdf():
     - The analyzed text is then used to generate a report in form of a markdown text
     - We will store the report in a PDF file to the S3 bucket
     - Returns a JSON response with the analyzed text and the PDF report for the report
+    
+    Returns:
+    - JSON response with the S3 URLs for the input and output PDFs, extracted text, and analyzed text
+    {
+        "input_pdf_url": "S3 URL for the input PDF",
+        "output_pdf_url": "S3 URL for the output PDF",
+        "extracted_text": "Extracted text from the input PDF",
+        "gpt_analysis_text": "Analyzed text from the GPT model"
+    }
     """
     # Check if a file is part of the request
     if 'file' not in request.files:
@@ -62,13 +71,13 @@ def blood_test_analysis_pdf():
     file.save(local_input_path)  # Save temporarily before uploading
     
     # Upload the original PDF to S3 (input folder)
-    input_s3_url = s3_service(local_input_path, input_s3_filename)
+    input_s3_url = upload_to_s3(local_input_path, input_s3_filename)
     
     # Extract text from the uploaded PDF
-    pdf_text = pdf_processing(local_input_path)
+    pdf_text = extract_text_from_pdf(local_input_path)
     
     # Analyze text with OpenAI API
-    result_text = s3_service(pdf_text)
+    result_text = analyze_text_with_openai(pdf_text)
     
     if result_text is None:
         os.remove(local_input_path)
@@ -76,11 +85,11 @@ def blood_test_analysis_pdf():
     
     # Generate the output PDF report from GPT-processed text
     output_pdf_filename = f"temp_output_{session_id}.pdf"
-    pdf_generator(result_text, output_pdf_filename)
+    create_pdf(result_text, output_pdf_filename)
     
     # Define output S3 path and upload generated PDF to S3 (output folder)
     output_s3_filename = f"output/{session_id}_report.pdf"
-    output_s3_url = s3_service(output_pdf_filename, output_s3_filename)
+    output_s3_url = upload_to_s3(output_pdf_filename, output_s3_filename)
     
     # Remove temporary local files
     os.remove(local_input_path)
@@ -93,3 +102,6 @@ def blood_test_analysis_pdf():
         "extracted_text": pdf_text,
         "gpt_analysis_text": result_text
     })
+    
+if __name__ == '__main__':
+    app.run(debug=True)

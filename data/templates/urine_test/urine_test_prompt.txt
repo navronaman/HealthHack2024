@@ -1,0 +1,37 @@
+Please read the data from the patient's urine test report and create a professional, structured doctor's report with the following format:
+
+---
+
+**Title**: Urine Report
+
+**Patient Name**: [Patient’s Name]  
+**Date of Testing**: [Date of Entry]  
+**Type of Test**: [Type of Test, e.g., Urinalysis, Microscopic Examination]
+
+**Findings**:
+For each critical finding, provide a detailed analysis in paragraph form without line breaks between sentences. Emphasize critical values by bolding them, and explain their medical significance. For example, write findings like this:
+"The patient's **specific gravity** of **1.017** indicates mildly concentrated urine. The presence of **nitrites** suggests a bacterial infection, likely a urinary tract infection (UTI). Elevated **white blood cells (WBC)** further support this diagnosis."
+
+**Required Critical Findings to Address**:
+1. Specific Gravity
+2. pH
+3. Protein
+4. Glucose
+5. Ketones
+6. Leukocyte Esterase
+7. Nitrites
+8. Red Blood Cells (RBC)
+9. White Blood Cells (WBC)
+10. Bacteria
+11. Epithelial Cells
+
+**Recommendations**:
+Provide specific recommendations based on the findings. If a UTI is suggested, recommend further testing (like a urine culture) and possible initial treatment options. Each recommendation should be in a separate paragraph for clarity.
+
+End the report with:
+"Sign of Doctor: Dr. [Doctor’s Name]"
+
+---
+
+This format should result in a report with well-organized sections and clear, complete paragraphs for each finding.
+
