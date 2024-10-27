@@ -1,0 +1,32 @@
+Please read the data from the patient's liver function test report and create a professional, structured doctor's report with the following format:
+
+---
+
+**Title**: Liver Function Test Report
+
+**Patient Name**: [Patient’s Name]  
+**Date of Testing**: [Date of Entry]  
+**Type of Test**: [Type of Test, e.g., Comprehensive Metabolic Panel]
+
+**Findings**:
+For each critical finding, provide a detailed analysis in paragraph form without line breaks between sentences. Emphasize critical values by bolding them, and explain their medical significance. For example, write findings like this:
+"The patient's **ALT** level of **75 U/L** is elevated, indicating potential liver inflammation. The **AST** level is also raised, supporting a diagnosis of possible liver injury."
+
+**Required Critical Findings to Address**:
+1. ALT (Alanine Aminotransferase)
+2. AST (Aspartate Aminotransferase)
+3. ALP (Alkaline Phosphatase)
+4. Bilirubin (Total, Direct, Indirect)
+5. Albumin
+6. Total Protein
+7. GGT (Gamma-Glutamyl Transferase, if available)
+
+**Recommendations**:
+Provide specific recommendations based on the findings. If liver enzyme levels are elevated, suggest possible follow-up tests or actions, such as imaging or referral to a gastroenterologist. Each recommendation should be in a separate paragraph for clarity.
+
+End the report with:
+"Sign of Doctor: Dr. [Doctor’s Name]"
+
+---
+
+This format should result in a report with well-organized sections and clear, complete paragraphs for each finding.

@@ -102,7 +102,7 @@ def upload_to_s3(file_path, s3_filename):
         return None
 
 # Third, let's implement the OpenAI service
-def analyze_text_with_openai(input_text, test_type='Blood Type', prompt_file_path=BR_PROMPT_FILE_PATH):
+def analyze_text_with_openai(input_text, test_type='Blood Test', prompt_file_path=BR_PROMPT_FILE_PATH):
     """
     Takes in the text from the blood test and uses OpenAI to analyze it, adds a prompt to give context.
     
@@ -142,12 +142,12 @@ def analyze_text_with_openai(input_text, test_type='Blood Type', prompt_file_pat
         return None
 
 # Lastly, let's implement the PDF generation service
-def create_pdf(output_text, pdf_filename=r"data\templates\report_output0.pdf"):
+def create_pdf(output_text, test_type="Blood Test", pdf_filename=r"data\templates\report_output0.pdf"):
     pdf = FPDF()
     pdf.add_page()
     
     pdf.set_font("Arial", "B", 16)
-    pdf.cell(200, 10, "Patient Blood Test Analysis Report", ln=True, align="C")
+    pdf.cell(200, 10, f"Patient {test_type} Analysis Report", ln=True, align="C")
     
     pdf.set_font("Arial", "", 12)
     sections = output_text.split("\n")
