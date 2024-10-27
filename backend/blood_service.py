@@ -106,7 +106,7 @@ def analyze_text_with_openai(input_text, prompt_file_path=PROMPT_FILE_PATH):
     with open(prompt_file_path, "r") as prompt_file:
         prompt_template = prompt_file.read()
     
-    full_prompt = prompt_template.format(text=input_text)
+    full_prompt = f"{prompt_template}\n\nBlood Test Findings:\n{input_text}"
     
     try:
         response = openai.ChatCompletion.create(
@@ -119,6 +119,12 @@ def analyze_text_with_openai(input_text, prompt_file_path=PROMPT_FILE_PATH):
         
         result = response['choices'][0]['message']['content']
         return result
+    except FileNotFoundError:
+        print("Error: The specified prompt file was not found.")
+        return None
+    except KeyError:
+        print("Error: Unexpected response format from OpenAI API.")
+        return None
     except Exception as e:
         print("Error with OpenAI API:", e)
         return None

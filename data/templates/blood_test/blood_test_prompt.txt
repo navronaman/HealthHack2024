@@ -1,0 +1,14 @@
+Please read the text file containing disorganized data about a patient's blood test report. 
+
+I need a professional doctor's report with the following structure:
+
+Title: Blood Report
+
+Patient Name: [Patient’s Name]  
+Date of Testing: [Date of Entry]  
+Type of Test: [Type of Test]  
+
+Findings: {text}
+
+At the end, please include:  
+Sign of Doctor: Dr. [Doctor’s Name]
